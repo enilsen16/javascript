@@ -1,0 +1,79 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Message Encoder</h1>
+  <p>This simple page lets you securely encrypt a message with a password. Your message will not leave your computer, and will not be sent over the Internet.</p>
+  <p>Once it's encoded, you'll be able to share your message with anyone else who has the password.</p>
+  <textarea id="message" rows="6" cols="60"></textarea>
+  <br>
+  <button id="encrypt">Encrypt</button>
+  <button id="decrypt">Decrypt</button>
+
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"></script>
+  <script>
+
+  var encoder = {
+    init: function() {
+      var action = document.getElementById('encrypt');
+      action.addEventListener('click', encoder.protect);
+    },
+    setMessage: function() {
+      encoder.message = document.getElementById("message").value
+    },
+    getPassword: function() {
+      encoder.password = prompt("Enter your password")
+      console.log(encoder.password)
+
+    },
+    setUrl: function() {
+      encoder.new_url = window.location.toLocaleString() + "?crypt=" + encoder.encrypt();
+      console.log(encoder.new_url)
+    },
+    replaceMessageWithUrl: function () {
+      document.getElementById("message").value = "Here is your encrypted url:\n" + encoder.new_url
+    },
+    encrypt: function() {
+      cypher = CryptoJS.AES.encrypt(encoder.message, encoder.password)
+      console.log("Verified: " +
+      CryptoJS.AES.decrypt(cypher, encoder.password).toString(CryptoJS.enc.Utf8))
+      return cypher
+    },
+    protect: function() {
+      encoder.setMessage()
+      encoder.getPassword()
+      encoder.setUrl()
+      encoder.replaceMessageWithUrl()
+    }
+  }
+  encoder.init();
+
+  var decoder = {
+    init: function() {
+      var action = document.getElementById('decrypt');
+      action.addEventListener('click', decoder.protect);
+    },
+    setPassword: function() {
+      decoder.password = prompt("Enter the Password");
+      console.log(decoder.password);
+    },
+    setCryptoHash: function() {
+      decoder.hash = window.location.search.substring(7);
+      decoder.decrypt();
+    },
+
+    decrypt: function() {
+      document.getElementById("message").value =
+      CryptoJS.AES.decrypt(decoder.hash, decoder.password).toString(CryptoJS.enc.Utf8)
+    },
+    protect: function() {
+      decoder.setPassword()
+      decoder.setCryptoHash()
+    }
+  }
+  decoder.init()
+  </script>
+</body>
+</html>
