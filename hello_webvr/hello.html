@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>My first VR site</title>
+  <script src="https://aframe.io/releases/latest/aframe.min.js"></script>
+  <script src="https://raw.githubusercontent.com/ngokevin/aframe-text-component/master/dist/aframe-text-component.js"></script>
+</head>
+
+<body>
+  <a-scene>
+    <a-camera id="camera" position="0 1.8 4"></a-camera>
+
+    <a-entity geometry="primitive: sphere; radius: 1000" material="color: #5F818A; shader: flat" scale="1 1 -1" look-at="#target"></a-entity>
+    <a-entity text="text: Welcome to my website!" material="color: #66E1B4" position="0 2 0"></a-entity>
+    <a-entity text="text: For the best experience" material="color: #66E1B4" position="0 1 0"></a-entity>
+    <a-entity text="text:please try this site with Google Cardboard" material="color: #66E1B4" position="0 0 0"></a-entity>
+    <a-cube id="target" width="2" depth=".5" height="2" color="#4CC3D9">
+      <a-animation attribute="position" from="-12 6 -12" to="10 1.8 0" dur="1500" repeat="indefinite" fill="forwards" direction="alternate"></a-animation>
+    </a-cube>
+  </a-scene>
+</body>
+
+</html>
